@@ -86,15 +86,18 @@ public class ModLoader {
 
     private void registerShader() {
         RenderSystem.recordRenderCall(this::initShader);
+        RenderSystem.recordRenderCall(this::initRenderTargets);
+    }
+
+    private void initRenderTargets() {
+        CULL_TEST_TARGET = new TextureTarget(Minecraft.getInstance().getWindow().getWidth(), Minecraft.getInstance().getWindow().getHeight(), false, Minecraft.ON_OSX);
+        CULL_TEST_TARGET.setClearColor(0.0F, 0.0F, 0.0F, 0.0F);
     }
 
     public static ShaderInstance CULL_TEST_SHADER;
     public static RenderTarget CULL_TEST_TARGET;
 
-    static {
-        CULL_TEST_TARGET = new TextureTarget(Minecraft.getInstance().getWindow().getWidth(), Minecraft.getInstance().getWindow().getHeight(), false, Minecraft.ON_OSX);
-        CULL_TEST_TARGET.setClearColor(0.0F, 0.0F, 0.0F, 0.0F);
-    }
+   
 
     private void initShader() {
         LOGGER.debug("try init shader chunk_culling");
